@@ -1,0 +1,5 @@
+Makefile
+zandemo.kdev4
+*.o
+ui_*.h
+zandemo
