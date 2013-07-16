@@ -1,11 +1,19 @@
 #include <QApplication>
+#include <QSettings>
 #include "types.h"
 #include "config.h"
+
+QSettings* cfg;
 
 // =============================================================================
 // -----------------------------------------------------------------------------
 int main( int argc, char* argv[] ) {
 	QApplication app( argc, argv );
+	app.setApplicationName( APPNAME );
+	app.setApplicationVersion( versionString() );
+	
+	QSettings settings;
+	cfg = &settings;
 	
 	for( int i = 1; i < argc; ++i ) {
 		str arg = argv[i];

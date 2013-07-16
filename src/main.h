@@ -15,7 +15,11 @@
 #define BUILD_RC       3
 #define BUILD_RELEASE  4
 
-class QString;
+#include <QSettings>
+
+static const std::nullptr_t null = nullptr;
+
+extern QSettings* cfg;
 QString versionString();
 
 #endif // MAIN_H

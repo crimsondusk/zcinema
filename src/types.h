@@ -4,9 +4,11 @@
 #include "main.h"
 #include <QString>
 #include <QList>
+#include <QVariant>
 
 typedef QString str;
 typedef QChar qchar;
+typedef QVariant var;
 template<class T> using list = QList<T>;
 typedef unsigned int uint;
 typedef unsigned short ushort;
