@@ -74,10 +74,10 @@ private:
 };
 
 // Formatter function
-str doFormat( std::vector< StringFormatArg > args );
+str doFormat( initlist<StringFormatArg> args );
 
 // printf replacement
-void doPrint( initlist<StringFormatArg> args ); // heh
+void doPrint( initlist<StringFormatArg> args );
 
 // Macros to access these functions
 #ifndef IN_IDE_PARSER

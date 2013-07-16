@@ -4,12 +4,12 @@
 #include <assert.h>
 #include "types.h"
 
-str doFormat( std::vector<StringFormatArg> args ) {
+str doFormat( initlist<StringFormatArg> args ) {
 	assert( args.size() >= 1 );
-	str text = args[0].value();
+	str text = args.begin()->value();
 	
-	for( uchar i = 1; i < args.size(); ++i )
-		text = text.arg( args[i].value() );
+	for( initlist<StringFormatArg>::iterator it = args.begin() + 1; it != args.end(); ++it )
+		text = text.arg( it->value() );
 	
 	return text;
 }

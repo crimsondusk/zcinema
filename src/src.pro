@@ -9,5 +9,5 @@ MOC_DIR         = ./build/
 RCC_DIR         = ./build/
 SOURCES         = *.cpp
 HEADERS         = *.h
-# FORMS           = ui/*.ui
+FORMS           = ui/*.ui
 QMAKE_CXXFLAGS += -std=c++0x
