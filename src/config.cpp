@@ -2,6 +2,8 @@
 #include "config.h"
 #include "ui_configbox.h"
 
+// =============================================================================
+// -----------------------------------------------------------------------------
 ConfigBox::ConfigBox( QWidget* parent, Qt::WindowFlags f ) : QDialog( parent, f ) {
 	ui = new Ui_ConfigBox;
 	ui->setupUi( this );
@@ -13,10 +15,14 @@ ConfigBox::ConfigBox( QWidget* parent, Qt::WindowFlags f ) : QDialog( parent, f 
 	connect( ui->wad_del, SIGNAL( clicked() ), this, SLOT( delPath() ));
 }
 
+// =============================================================================
+// -----------------------------------------------------------------------------
 ConfigBox::~ConfigBox() {
 	delete ui;
 }
 
+// =============================================================================
+// -----------------------------------------------------------------------------
 void ConfigBox::initFromSettings() {
 	ui->wad_pathsList->clear();
 	
@@ -25,15 +31,21 @@ void ConfigBox::initFromSettings() {
 		addPath( it.toString() );
 }
 
+// =============================================================================
+// -----------------------------------------------------------------------------
 void ConfigBox::addPath() {
 	addPath( ui->wad_pathEntry->text() );
 	ui->wad_pathEntry->clear();
 }
 
+// =============================================================================
+// -----------------------------------------------------------------------------
 void ConfigBox::addPath( str path ) {
 	ui->wad_pathsList->addItem( path );
 }
 
+// =============================================================================
+// -----------------------------------------------------------------------------
 void ConfigBox::findPath() {
 	str path = QFileDialog::getExistingDirectory( this );
 	if( path.isEmpty() )
@@ -42,6 +54,8 @@ void ConfigBox::findPath() {
 	ui->wad_pathEntry->setText( path );
 }
 
+// =============================================================================
+// -----------------------------------------------------------------------------
 void ConfigBox::delPath() {
 	delete ui->wad_pathsList->currentItem();
 }
