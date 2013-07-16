@@ -16,7 +16,7 @@ int main( int argc, char* argv[] ) {
 		}
 	}
 	
-	print ("Hello world! This is " APPNAME " %1\n", versionString() );
+	print( "Hello world! This is " APPNAME " %1\n", versionString() );
 	return app.exec();
 }
 
