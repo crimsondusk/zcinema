@@ -15,6 +15,8 @@
 #define BUILD_RC       3
 #define BUILD_RELEASE  4
 
+#define elif else if
+
 #include <QSettings>
 
 static const std::nullptr_t null = nullptr;

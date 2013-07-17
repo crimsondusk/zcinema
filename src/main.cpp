@@ -2,9 +2,10 @@
 #include <QSettings>
 #include "types.h"
 #include "config.h"
+#include "demo.h"
 
 const list<str> g_zanVersions ({
-	"1.1",
+	"1.1-r130716-1906M",
 });
 
 // =============================================================================
@@ -15,8 +16,6 @@ int main( int argc, char* argv[] ) {
 	app.setOrganizationName( UNIXNAME );
 	app.setApplicationVersion( versionString() );
 	
-	print( "Settings path: %1\n", QSettings().fileName() );
-	
 	for( int i = 1; i < argc; ++i ) {
 		str arg = argv[i];
 		
@@ -26,7 +25,13 @@ int main( int argc, char* argv[] ) {
 		}
 	}
 	
-	return app.exec();
+	if( argc != 2 ) {
+		fprint( stderr, "Usage: %1 <demo>   - Launch a demo file\n", argv[0] );
+		fprint( stderr, "       %1 --config - Configure " APPNAME "\n", argv[0] );
+		return 255;
+	}
+	
+	return launchDemo( argv[1] );
 }
 
 // =============================================================================

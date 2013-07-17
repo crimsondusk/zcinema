@@ -14,8 +14,8 @@ str doFormat( initlist<StringFormatArg> args ) {
 	return text;
 }
 
-void doPrint( initlist<StringFormatArg> args ) {
-	printf( "%s", doFormat( args ).toStdString().c_str() );
+void doPrint( FILE* fp, initlist<StringFormatArg> args ) {
+	fprintf( fp, "%s", doFormat( args ).toStdString().c_str() );
 }
 
 // =============================================================================

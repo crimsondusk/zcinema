@@ -16,6 +16,19 @@ typedef unsigned long ulong;
 template<class T> using initlist = std::initializer_list<T>;
 using std::size_t;
 
+typedef qint8 int8;
+typedef qint16 int16;
+typedef qint32 int32;
+typedef qint64 int64;
+typedef quint8 uint8;
+typedef quint16 uint16;
+typedef quint32 uint32;
+typedef quint64 uint64;
+
+#ifdef IN_IDE_PARSER // :|
+typedef void FILE;
+#endif
+
 // =============================================================================
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // =============================================================================
@@ -53,13 +66,18 @@ public:
 	template<class T> StringFormatArg( const list<T>& v ) {
 		m_val = "{ ";
 		uint i = 0;
+		const bool isString = typeid( T ) == typeid( str );
 		
 		for( const T& it : v ) {
 			if( i++ )
 				m_val += ", ";
 			
 			StringFormatArg arg( it );
-			m_val += arg.value();
+			
+			if( isString )
+				m_val += "\"" + arg.value() + "\"";
+			else
+				m_val += arg.value();
 		}
 		
 		if( i )
@@ -79,15 +97,17 @@ private:
 str doFormat( initlist<StringFormatArg> args );
 
 // printf replacement
-void doPrint( initlist<StringFormatArg> args );
+void doPrint( FILE* fp, initlist<StringFormatArg> args );
 
 // Macros to access these functions
 #ifndef IN_IDE_PARSER
 # define fmt(...) doFormat({ __VA_ARGS__ })
-# define print(...) doPrint({ __VA_ARGS__ })
+# define print(...) doPrint( stdout, { __VA_ARGS__ })
+# define fprint(FP, ...) doPrint( FP, { __VA_ARGS__ })
 #else
 str fmt( const char* fmtstr, ... );
 void print( const char* fmtstr, ... );
+void fprint( FILE* fp, const char* fmtstr, ... );
 #endif
 
 #endif // TYPES_H

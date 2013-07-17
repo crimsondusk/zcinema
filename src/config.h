@@ -16,7 +16,6 @@ public:
 	virtual ~ConfigBox();
 	void addPath( str path );
 	void initFromSettings();
-	str binaryConfigName( str ver ) const;
 	
 public slots:
 	void addPath();
