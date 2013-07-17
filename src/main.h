@@ -19,7 +19,7 @@
 
 static const std::nullptr_t null = nullptr;
 
-extern QSettings* cfg;
+extern const QList<QString> g_zanVersions;
 QString versionString();
 
 #endif // MAIN_H

@@ -3,34 +3,35 @@
 #include "types.h"
 #include "config.h"
 
-QSettings* cfg;
+const list<str> g_zanVersions ({
+	"1.1",
+});
 
 // =============================================================================
 // -----------------------------------------------------------------------------
 int main( int argc, char* argv[] ) {
 	QApplication app( argc, argv );
-	app.setApplicationName( APPNAME );
+	app.setApplicationName( UNIXNAME );
+	app.setOrganizationName( UNIXNAME );
 	app.setApplicationVersion( versionString() );
 	
-	QSettings settings;
-	cfg = &settings;
+	print( "Settings path: %1\n", QSettings().fileName() );
 	
 	for( int i = 1; i < argc; ++i ) {
 		str arg = argv[i];
 		
 		if( arg == "--config" ) {
-			ConfigBox* dlg = new ConfigBox;
-			dlg->show();
+			ConfigBox dlg;
+			return dlg.exec();
 		}
 	}
 	
-	print( "Hello world! This is " APPNAME " %1\n", versionString() );
 	return app.exec();
 }
 
 // =============================================================================
 // -----------------------------------------------------------------------------
-QString versionString() {
+str versionString() {
 	str text = fmt( "v%1.%2", VERSION_MAJOR, VERSION_MINOR );
 #if VERSION_PATCH != 0
 	text += fmt( ".%1", VERSION_PATCH );

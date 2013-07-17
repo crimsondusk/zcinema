@@ -5,6 +5,7 @@
 #include "main.h"
 #include "types.h"
 
+class QLineEdit;
 class Ui_ConfigBox;
 
 class ConfigBox : public QDialog {
@@ -15,14 +16,19 @@ public:
 	virtual ~ConfigBox();
 	void addPath( str path );
 	void initFromSettings();
+	str binaryConfigName( str ver ) const;
 	
 public slots:
 	void addPath();
 	void findPath();
 	void delPath();
+	void findZanBinary();
+	void okPressed();
+	void cancelPressed();
 	
 private:
 	Ui_ConfigBox* ui;
+	list<QLineEdit*> m_zanBinaries;
 };
 
 #endif // CONFIG_H

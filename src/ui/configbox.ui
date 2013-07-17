@@ -32,29 +32,11 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <layout class="QGridLayout" name="gridLayout">
-         <item row="1" column="2">
-          <widget class="QPushButton" name="wad_add">
-           <property name="text">
-            <string>Add</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <item>
-            <widget class="QLineEdit" name="wad_pathEntry"/>
-           </item>
-           <item>
-            <widget class="QPushButton" name="wad_findPath">
-             <property name="text">
-              <string>...</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
          <item row="2" column="1">
           <widget class="QListWidget" name="wad_pathsList">
+           <property name="editTriggers">
+            <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+           </property>
            <property name="dragEnabled">
             <bool>true</bool>
            </property>
@@ -66,6 +48,12 @@
            </property>
            <property name="selectionMode">
             <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
+           <property name="layoutMode">
+            <enum>QListView::SinglePass</enum>
+           </property>
+           <property name="uniformItemSizes">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -100,6 +88,27 @@
            </item>
           </layout>
          </item>
+         <item row="1" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLineEdit" name="wad_pathEntry"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="wad_findPath">
+             <property name="text">
+              <string>...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="2">
+          <widget class="QPushButton" name="wad_add">
+           <property name="text">
+            <string>Add</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
       </layout>
@@ -110,7 +119,26 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QWidget" name="zandronumVersions" native="true"/>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>448</width>
+            <height>232</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QWidget" name="zandronumVersions" native="true"/>
+           </item>
+          </layout>
+         </widget>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -131,46 +159,14 @@
  <resources/>
  <connections>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>ConfigBox</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>254</x>
-     <y>313</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>ConfigBox</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>322</x>
-     <y>313</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>wad_clear</sender>
    <signal>clicked(bool)</signal>
    <receiver>wad_pathsList</receiver>
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>441</x>
-     <y>217</y>
+     <x>463</x>
+     <y>129</y>
     </hint>
     <hint type="destinationlabel">
      <x>219</x>
