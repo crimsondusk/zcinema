@@ -3,3 +3,6 @@ zandemo.kdev4
 *.o
 ui_*.h
 zandemo
+*.cld
+build
+*.bak
