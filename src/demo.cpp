@@ -5,6 +5,7 @@
 #include "demo.h"
 #include "bytestream.h"
 #include "misc.h"
+#include "ui_demoprompt.h"
 
 static const uint32 g_demoSignature = makeByteID( 'Z', 'C', 'L', 'D' );
 
@@ -132,6 +133,7 @@ int launchDemo( str path ) {
 			s.readByte( userinfo.handicap );
 			s.readByte( userinfo.unlagged );
 			s.readByte( userinfo.respawnOnFire );
+			s.readByte( userinfo.ticsPerUpdate );
 			s.readByte( userinfo.connectionType );
 			s.readString( userinfo.className );
 		} elif( header == DemoWads + offset ) {
@@ -173,8 +175,8 @@ int launchDemo( str path ) {
 		return 7;
 	}
 	
-	str iwadpath;
-	list<str> pwadpaths;
+	str iwad, iwadpath;
+	list<str> pwads, pwadpaths;
 	
 	// Find the WADs
 	for( const str& wad : wads ) {
@@ -189,20 +191,43 @@ int launchDemo( str path ) {
 			return 8;
 		}
 		
-		if( &wad == &wads[0] )
+		if( &wad == &wads[0] ) {
 			iwadpath = path;
-		else
+			iwad = wad;
+		} else {
 			pwadpaths << path;
+			pwads << wad;
+		}
+	}
+	
+	if( !cfg.value( "nodemoprompt", false ).toBool() ) {
+		str pwadtext;
+		for( const str& pwad : pwads ) {
+			if( !pwadtext.isEmpty() )
+				pwadtext += "<br />";
+			
+			pwadtext += pwad;
+		}
+		
+		QDialog* dlg = new QDialog;
+		Ui_DemoPrompt ui;
+		ui.setupUi( dlg );
+		ui.demoNameLabel->setText( basename( path ));
+		ui.demoRecorder->setText( userinfo.netname );
+		ui.versionLabel->setText( zanversion );
+		ui.iwadLabel->setText( wads[0] );
+		ui.pwadsLabel->setText( pwadtext );
+		
+		if( !dlg->exec() )
+			return 1;
 	}
 	
 	print( "binary: %1\n", binarypath );
 	print( "iwad: %1\npwads: %2\n", iwadpath, pwadpaths );
 	
 	QStringList cmdlineList ({
-		"-iwad",
-		iwadpath,
-		"-playdemo",
-		path
+		"-playdemo", path,
+		"-iwad", iwadpath,
 	});
 	
 	if( pwadpaths.size() > 0 ) {

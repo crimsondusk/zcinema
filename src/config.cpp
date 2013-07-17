@@ -74,6 +74,8 @@ void ConfigBox::initFromSettings() {
 	int i = 0;
 	for( str ver : g_zanVersions )
 		m_zanBinaries[i++]->setText( cfg.value( binaryConfigName( ver ), "" ).toString() );
+	
+	ui->noDemoPrompt->setChecked( cfg.value( "nodemoprompt", false ).toBool() );
 }
 
 // =============================================================================
@@ -139,6 +141,7 @@ void ConfigBox::okPressed() {
 		wadPathList << ui->wad_pathsList->item( i )->text();
 	
 	cfg.setValue( "wads/paths", wadPathList );
+	cfg.setValue( "nodemoprompt", ui->noDemoPrompt->isChecked() );
 	
 	int i = 0;
 	for( str ver : g_zanVersions )
