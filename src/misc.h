@@ -3,9 +3,12 @@
 
 #include "types.h"
 
-uint32 makeByteID( uint8 a, uint8 b, uint8 c, uint8 d );
-str binaryConfigName( str ver );
-str basename( str path );
+uint32 makeByteID (uint8 a, uint8 b, uint8 c, uint8 d);
+str binaryConfigName (str ver);
+str basename (str path);
+list<var> getVersionsList();
+list<var> getReleasesList();
+void addVersion (str name, bool isRelease, str binaryPath);
 
 // -----------------------------------------------------------------------------
 // Templated clamp

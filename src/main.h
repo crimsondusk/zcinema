@@ -19,9 +19,9 @@
 
 #include <QSettings>
 
+struct VersionInfo;
 static const std::nullptr_t null = nullptr;
 
-extern const QList<QString> g_zanVersions;
 QString versionString();
 
 #endif // MAIN_H
