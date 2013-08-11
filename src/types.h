@@ -57,10 +57,10 @@ typedef void FILE;
 // =============================================================================
 class StringFormatArg {
 public:
-	StringFormatArg( const str& v );
-	StringFormatArg( const char& v );
-	StringFormatArg( const uchar& v );
-	StringFormatArg( const qchar& v );
+	StringFormatArg (const str& v);
+	StringFormatArg (const char& v);
+	StringFormatArg (const uchar& v);
+	StringFormatArg (const qchar& v);
 	
 #define NUMERIC_FORMAT_ARG(T,C) \
 	StringFormatArg (const T& v) { \
@@ -69,36 +69,36 @@ public:
 		m_val = valstr; \
 	}
 	
-	NUMERIC_FORMAT_ARG( int, d )
-	NUMERIC_FORMAT_ARG( short, d )
-	NUMERIC_FORMAT_ARG( long, ld )
-	NUMERIC_FORMAT_ARG( uint, u )
-	NUMERIC_FORMAT_ARG( ushort, u )
-	NUMERIC_FORMAT_ARG( ulong, lu )
+	NUMERIC_FORMAT_ARG (int, d)
+	NUMERIC_FORMAT_ARG (short, d)
+	NUMERIC_FORMAT_ARG (long, ld)
+	NUMERIC_FORMAT_ARG (uint, u)
+	NUMERIC_FORMAT_ARG (ushort, u)
+	NUMERIC_FORMAT_ARG (ulong, lu)
 	
-	StringFormatArg( const float& v );
-	StringFormatArg( const double& v );
-	StringFormatArg( const char* v );
-	StringFormatArg( const void* v );
+	StringFormatArg (const float& v);
+	StringFormatArg (const double& v);
+	StringFormatArg (const char* v);
+	StringFormatArg (const void* v);
 	
-	template<class T> StringFormatArg( const list<T>& v ) {
+	template<class T> StringFormatArg (const list<T>& v) {
 		m_val = "{ ";
 		uint i = 0;
-		const bool isString = typeid( T ) == typeid( str );
+		const bool isString = typeid (T) == typeid (str);
 		
-		for( const T& it : v ) {
-			if( i++ )
+		for (const T& it : v) {
+			if (i++)
 				m_val += ", ";
 			
-			StringFormatArg arg( it );
+			StringFormatArg arg (it);
 			
-			if( isString )
+			if (isString)
 				m_val += "\"" + arg.value() + "\"";
 			else
 				m_val += arg.value();
 		}
 		
-		if( i )
+		if (i)
 			m_val += " ";
 		
 		m_val += "}";
@@ -112,20 +112,20 @@ private:
 };
 
 // Formatter function
-str doFormat( initlist<StringFormatArg> args );
+str doFormat (initlist<StringFormatArg> args);
 
 // printf replacement
-void doPrint( FILE* fp, initlist<StringFormatArg> args );
+void doPrint (FILE* fp, initlist<StringFormatArg> args);
 
 // Macros to access these functions
 #ifndef IN_IDE_PARSER
 # define fmt(...) doFormat({ __VA_ARGS__ })
-# define print(...) doPrint( stdout, { __VA_ARGS__ })
-# define fprint(FP, ...) doPrint( FP, { __VA_ARGS__ })
+# define print(...) doPrint (stdout, { __VA_ARGS__ })
+# define fprint(FP, ...) doPrint (FP, { __VA_ARGS__ })
 #else
-str fmt( const char* fmtstr, ... );
-void print( const char* fmtstr, ... );
-void fprint( FILE* fp, const char* fmtstr, ... );
+str fmt (const char* fmtstr, ...);
+void print (const char* fmtstr, ...);
+void fprint (FILE* fp, const char* fmtstr, ...);
 #endif
 
 #endif // TYPES_H
