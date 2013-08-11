@@ -38,7 +38,12 @@ str uncolorize (const str& in) {
 		if (skip-- > 0)
 			continue;
 		
-		if (c.toAscii() == '\034') {
+#if (QT_VERSION >= QT_VERSION_CHECK (5, 0, 0))
+		if (c.toLatin1() == '\034')
+#else
+		if (c.toAscii() == '\034')
+#endif // QT_VERSION
+		{
 			skip = 1;
 			continue;
 		}
@@ -101,8 +106,14 @@ static str findWAD (str name) {
 
 // =============================================================================
 // -----------------------------------------------------------------------------
+#ifdef _WIN32
+# define FILE_FLAGS "rb"
+#else
+# define FILE_FLAGS "r"
+#endif // _WIN32
+
 int launchDemo (str path) {
-	FILE* fp = fopen (path.toStdString().c_str(), "r");
+	FILE* fp = fopen (path.toStdString().c_str(), FILE_FLAGS);
 	
 	if (!fp) {
 		error (fmt (tr ("Couldn't open '%1' for reading: %2"), path, strerror (errno)));
@@ -115,8 +126,9 @@ int launchDemo (str path) {
 	
 	char* buf = new char[fsize];
 	
-	if (fread (buf, 1, fsize, fp) != fsize) {
-		error (tr ("I/O error"));
+	const size_t bytesRead = fread (buf, 1, fsize, fp);
+	if (bytesRead != fsize) {
+		error (fmt (tr ("I/O error: %1 / %2 bytes read"), bytesRead, fsize));
 		delete[] buf;
 		return 2;
 	}

@@ -21,10 +21,6 @@
 #include <QFormLayout>
 #include <QProgressBar>
 #include <QMessageBox>
-#include <QUrl>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
 #include "config.h"
 #include "ui_configbox.h"
 #include "misc.h"
@@ -52,8 +48,7 @@ private:
 
 // =============================================================================
 // -----------------------------------------------------------------------------
-ConfigBox::ConfigBox (QWidget* parent, Qt::WindowFlags f) : QDialog (parent, f),
-	m_nam (new QNetworkAccessManager (this)) {
+ConfigBox::ConfigBox (QWidget* parent, Qt::WindowFlags f) : QDialog (parent, f) {
 	ui = new Ui_ConfigBox;
 	ui->setupUi (this);
 	ui->updateProgress->hide();

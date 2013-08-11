@@ -54,8 +54,6 @@ public slots:
 private:
 	Ui_ConfigBox* ui;
 	list<QLineEdit*> m_zanBinaries;
-	QNetworkAccessManager* m_nam;
-	QNetworkReply* m_reply;
 };
 
 #endif // CONFIG_H

@@ -9,6 +9,6 @@ MOC_DIR         = ./build/
 RCC_DIR         = ./build/
 SOURCES         = *.cpp
 HEADERS         = *.h
-QT             += network
+QT             += widgets
 FORMS           = ui/*.ui
 QMAKE_CXXFLAGS += -std=c++0x
