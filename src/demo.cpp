@@ -21,7 +21,6 @@
 #include <QMessageBox>
 #include <QProcess>
 #include "demo.h"
-#include "bytestream.h"
 #include "misc.h"
 #include "ui_demoprompt.h"
 #include "prompts.h"
@@ -101,38 +100,37 @@ static str findWAD (str name) {
 
 // =============================================================================
 // -----------------------------------------------------------------------------
-#ifdef _WIN32
-# define FILE_FLAGS "rb"
-#else
-# define FILE_FLAGS "r"
-#endif // _WIN32
-
-int launchDemo (str path) {
-	FILE* fp = fopen (path.toStdString().c_str(), FILE_FLAGS);
+QDataStream& operator>> (QDataStream& stream, str& out) {
+	uint8 c;
+	out = "";
 	
-	if (!fp) {
+	for (stream >> c; c != '\0'; stream >> c)
+		out += c;
+	
+	return stream;
+}
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+int launchDemo (str path) {
+	QFile f (path);
+	
+	if (!f.open (QIODevice::ReadOnly)) {
 		error (fmt (tr ("Couldn't open '%1' for reading: %2"), path, strerror (errno)));
 		return 1;
 	}
 	
-	fseek (fp, 0, SEEK_END);
-	const size_t fsize = ftell (fp);
-	rewind (fp);
-	
-	char* buf = new char[fsize];
-	
-	const size_t bytesRead = fread (buf, 1, fsize, fp);
-	if (bytesRead != fsize) {
-		error (fmt (tr ("I/O error: %1 / %2 bytes read"), bytesRead, fsize));
-		delete[] buf;
-		return 2;
-	}
-
-	Bytestream s (buf, fsize);
-	delete[] buf;
+	QDataStream stream (&f);
+	stream.setByteOrder (QDataStream::LittleEndian);
 	
 	uint8 offset;
 	uint32 length;
+	uint16 zanversionID, numWads;
+	uint32 longSink;
+	str zanversion;
+	list<str> wads;
+	uint8 buildID;
+	bool ready = false;
 	
 	struct {
 		str netname, skin, className;
@@ -144,7 +142,8 @@ int launchDemo (str path) {
 	{
 		uint32 sig;
 		
-		if (!s.readLong (sig) || sig != g_demoSignature) {
+		stream >> sig;
+		if (sig != g_demoSignature) {
 			error (fmt (tr ("'%1' is not a Zandronum demo file!"), path));
 			return 3;
 		}
@@ -153,63 +152,63 @@ int launchDemo (str path) {
 	// Zandronum stores CLD_DEMOLENGTH after the signature. This is also the
 	// first demo enumerator, so we can determine the offset (which is variable!)
 	// from this byte
-	s.readByte (offset);
-	s.readLong (length);
-
-	uint16 zanversionID, numWads;
-	uint32 longSink;
-	str zanversion;
-	list<str> wads;
-	bool ready = false;
-	uint8 buildID;
+	stream >> offset
+	       >> length;
 	
 	// Read the demo header and get data
 	for (;;) {
 		uint8 header;
-		
-		if (!s.readByte (header))
-			break;
+		stream >> header;
+		print ("header: %1\n", (int) header);
 		
 		if (header == DemoBodyStart + offset) {
 			ready = true;
 			break;
 		} elif (header == DemoVersion + offset) {
-			s.readShort (zanversionID);
-			s.readString (zanversion);
+			print ("Read demo version\n");
+			stream >> zanversionID
+			       >> zanversion;
+			
+			print ("version ID: %1, version: %2\n", zanversionID, zanversion);
 			
 			if (zanversion.left (4) != "1.1-" && zanversion.left (6) != "1.1.1-")
-				s.readByte (buildID);
-			else
+				stream >> buildID;
+			else {
+				// Assume a release build if not supplied. The demo only got the
+				// "ZCLD" signature in the 1.1 release build, 1.1.1 had no
+				// development binaries and the build ID will be included in 1.1.2.
 				buildID = 1;
+			}
 			
-			s.readLong (longSink);  // rng seed - we don't need it
+			stream >> longSink; // rng seed - we don't need it
 		} elif (header == DemoUserInfo + offset) {
-			s.readString (userinfo.netname);
-			s.readByte (userinfo.gender);
-			s.readLong (userinfo.color);
-			s.readLong (userinfo.aimdist);
-			s.readString (userinfo.skin);
-			s.readLong (userinfo.railcolor);
-			s.readByte (userinfo.handicap);
-			s.readByte (userinfo.unlagged);
-			s.readByte (userinfo.respawnOnFire);
-			s.readByte (userinfo.ticsPerUpdate);
-			s.readByte (userinfo.connectionType);
-			s.readString (userinfo.className);
+			print ("Read userinfo\n");
+			stream >> userinfo.netname
+			       >> userinfo.gender
+			       >> userinfo.color
+			       >> userinfo.aimdist
+			       >> userinfo.skin
+			       >> userinfo.railcolor
+			       >> userinfo.handicap
+			       >> userinfo.unlagged
+			       >> userinfo.respawnOnFire
+			       >> userinfo.ticsPerUpdate
+			       >> userinfo.connectionType
+			       >> userinfo.className;
 		} elif (header == DemoWads + offset) {
 			str sink;
-			s.readShort (numWads);
+			stream >> numWads;
 			
 			for (uint8 i = 0; i < numWads; ++i) {
 				str wad;
-				s.readString (wad);
+				stream >> wad;
 				wads << wad;
 			}
 			
 			// The demo has two checksum strings. We're not interested
-			// in them though.
+			// in them though. Down the sink they go...
 			for (int i = 0; i < 2; ++i)
-				s.readString (sink);
+				stream >> sink;
 		} else {
 			error (fmt (tr ("Unknown header %1!\n"), (int) header));
 			return 3;
