@@ -211,11 +211,7 @@ void Bytestream::writeString (str val) {
 	growToFit (val.length() + 1);
 
 	for (qchar c : val)
-#if (QT_VERSION >= QT_VERSION_CHECK (5, 0, 0))
 		doWrite (c.toLatin1());
-#else
-		doWrite (c.toAscii());
-#endif // QT_VERSION
 
 	doWrite ('\0');
 }

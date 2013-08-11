@@ -38,12 +38,7 @@ str uncolorize (const str& in) {
 		if (skip-- > 0)
 			continue;
 		
-#if (QT_VERSION >= QT_VERSION_CHECK (5, 0, 0))
-		if (c.toLatin1() == '\034')
-#else
-		if (c.toAscii() == '\034')
-#endif // QT_VERSION
-		{
+		if (c.toLatin1() == '\034') {
 			skip = 1;
 			continue;
 		}
