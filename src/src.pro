@@ -1,8 +1,8 @@
 TARGET          = ../zandemo
 DEPENDPATH     += .
 INCLUDEPATH    += .
-# RC_FILE         = ../ldforge.rc
-# RESOURCES       = ../ldforge.qrc
+RC_FILE         = ../zandemo.rc
+RESOURCES       = ../zandemo.qrc
 RCC_DIR         = ./build/
 OBJECTS_DIR     = ./build/
 MOC_DIR         = ./build/

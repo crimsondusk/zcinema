@@ -51,12 +51,10 @@ private:
 ConfigBox::ConfigBox (QWidget* parent, Qt::WindowFlags f) : QDialog (parent, f) {
 	ui = new Ui_ConfigBox;
 	ui->setupUi (this);
-	ui->updateProgress->hide();
-	ui->updateLabel->hide();
-
+	
 	initVersions();
 	initFromSettings();
-
+	
 	connect (ui->wad_add, SIGNAL (clicked()), this, SLOT (addPath()));
 	connect (ui->wad_pathEntry, SIGNAL (returnPressed()), this, SLOT (addPath()));
 	connect (ui->wad_findPath, SIGNAL (clicked()), this, SLOT (findPath()));

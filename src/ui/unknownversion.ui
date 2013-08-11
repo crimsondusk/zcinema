@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Unknown Zandronum Version</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../zandemo.qrc">
+    <normaloff>:/icons/zandemo.ico</normaloff>:/icons/zandemo.ico</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="m_description">
@@ -82,7 +86,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../zandemo.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>m_cancel</sender>
