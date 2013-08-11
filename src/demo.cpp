@@ -206,15 +206,15 @@ int launchDemo (str path) {
 			return 6;
 		}
 	}
-
+	
 	QSettings cfg;
 	str binarypath = cfg.value (binaryConfigName (zanversion)).toString();
-
+	
 	if (binarypath.isEmpty()) {
 		error (fmt (tr ("No binary path specified for Zandronum version %1!"), zanversion));
 		return 7;
 	}
-
+	
 	str iwadpath;
 	list<str> pwadpaths;
 	
