@@ -35,6 +35,13 @@ enum {
 	DemoWads
 };
 
+enum BuildType {
+	OtherBuild    = 0,
+	ReleaseBuild  = 1,
+	InternalBuild = 2,
+	PrivateBuild  = 3
+};
+
 struct VersionInfo {
 	str shortVersion;
 	str versionString;

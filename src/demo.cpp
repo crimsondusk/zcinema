@@ -98,14 +98,14 @@ static str findWAD (str name) {
 
 // =============================================================================
 // -----------------------------------------------------------------------------
-QDataStream& operator>> (QDataStream& stream, str& out) {
+str readString (QDataStream& stream) {
+	str out;
 	uint8 c;
-	out = "";
 	
 	for (stream >> c; c != '\0'; stream >> c)
 		out += c;
 	
-	return stream;
+	return out;
 }
 
 // =============================================================================
@@ -127,7 +127,7 @@ int launchDemo (str path) {
 	uint32 longSink;
 	str zanversion;
 	list<str> wads;
-	uint8 buildID;
+	BuildType buildID;
 	bool ready = false;
 	
 	struct {
@@ -164,42 +164,43 @@ int launchDemo (str path) {
 			break;
 		} elif (header == DemoVersion + offset) {
 			print ("Read demo version\n");
-			stream >> zanversionID
-			       >> zanversion;
+			stream >> zanversionID;
+			zanversion = readString (stream);
 			
 			print ("version ID: %1, version: %2\n", zanversionID, zanversion);
 			
-			if (zanversion.left (4) != "1.1-" && zanversion.left (6) != "1.1.1-")
-				stream >> buildID;
-			else {
+			if (!zanversion.startsWith ("1.1-") && !zanversion.startsWith ("1.1.1-")) {
+				uint8 a;
+				stream >> a;
+				buildID = (BuildType) a;
+			} else {
 				// Assume a release build if not supplied. The demo only got the
-				// "ZCLD" signature in the 1.1 release build, 1.1.1 had no
-				// development binaries and the build ID will be included in 1.1.2.
-				buildID = 1;
+				// "ZCLD" signature in the 1.1 release build, 1.1.1 had no testing
+				// binaries and the build ID is included in 1.2 onward.
+				buildID = ReleaseBuild;
 			}
 			
 			stream >> longSink; // rng seed - we don't need it
 		} elif (header == DemoUserInfo + offset) {
 			print ("Read userinfo\n");
-			stream >> userinfo.netname
-			       >> userinfo.gender
+			userinfo.netname = readString (stream);
+			stream >> userinfo.gender
 			       >> userinfo.color
-			       >> userinfo.aimdist
-			       >> userinfo.skin
-			       >> userinfo.railcolor
+			       >> userinfo.aimdist;
+			userinfo.skin = readString (stream);
+			stream >> userinfo.railcolor
 			       >> userinfo.handicap
 			       >> userinfo.unlagged
 			       >> userinfo.respawnOnFire
 			       >> userinfo.ticsPerUpdate
-			       >> userinfo.connectionType
-			       >> userinfo.className;
+			       >> userinfo.connectionType;
+			userinfo.className = readString (stream);
 		} elif (header == DemoWads + offset) {
 			str sink;
 			stream >> numWads;
 			
 			for (uint8 i = 0; i < numWads; ++i) {
-				str wad;
-				stream >> wad;
+				str wad = readString (stream);
 				wads << wad;
 			}
 			
