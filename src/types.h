@@ -1,5 +1,5 @@
 /*
- *  ZanDemo: Zandronum demo launcher
+ *  ZCinema: Zandronum demo launcher
  *  Copyright (C) 2013 Santeri Piippo
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ZANDEMO_TYPES_H
-#define ZANDEMO_TYPES_H
+#ifndef ZCINEMA_TYPES_H
+#define ZCINEMA_TYPES_H
 
 #include "main.h"
 #include <QString>
@@ -126,4 +126,4 @@ void print (const char* fmtstr, ...);
 void fprint (FILE* fp, const char* fmtstr, ...);
 #endif
 
-#endif // ZANDEMO_TYPES_H
+#endif // ZCINEMA_TYPES_H

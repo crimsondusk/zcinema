@@ -1,5 +1,5 @@
 /*
- *  ZanDemo: Zandronum demo launcher
+ *  ZCinema: Zandronum demo launcher
  *  Copyright (C) 2013 Santeri Piippo
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ZANDEMO_CFG_H
-#define ZANDEMO_CFG_H
+#ifndef ZCINEMA_CFG_H
+#define ZCINEMA_CFG_H
 
 // =============================================================================
 #include <QString>
@@ -61,4 +61,4 @@ namespace cfg {
 	};
 };
 
-#endif // ZANDEMO_CFG_H
+#endif // ZCINEMA_CFG_H

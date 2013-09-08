@@ -1,5 +1,5 @@
 /*
- *  ZanDemo: Zandronum demo launcher
+ *  ZCinema: Zandronum demo launcher
  *  Copyright (C) 2013 Santeri Piippo
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ZANDEMO_MISC_H
-#define ZANDEMO_MISC_H
+#ifndef ZCINEMA_MISC_H
+#define ZCINEMA_MISC_H
 
 #include "types.h"
 
@@ -50,4 +50,4 @@ template<class T> static inline T abs (T a) {
 	return (a >= 0) ? a : -a;
 }
 
-#endif // ZANDEMO_MISC_H
+#endif // ZCINEMA_MISC_H

@@ -1,5 +1,5 @@
 /*
- *  ZanDemo: Zandronum demo launcher
+ *  ZCinema: Zandronum demo launcher
  *  Copyright (C) 2013 Santeri Piippo
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ZANDEMO_DEMO_H
-#define ZANDEMO_DEMO_H
+#ifndef ZCINEMA_DEMO_H
+#define ZCINEMA_DEMO_H
 
 #include "types.h"
 
@@ -50,4 +50,4 @@ struct VersionInfo {
 
 int launchDemo (str path);
 
-#endif // ZANDEMO_DEMO_H
+#endif // ZCINEMA_DEMO_H

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-QRCFILE=zandemo.qrc
+QRCFILE=zcinema.qrc
 FILES=$(echo ./icons/*.* LICENSE)
 
 printf "" > $QRCFILE

@@ -1,9 +1,9 @@
 CONFIG         += qt debug
-TARGET          = ../zandemo
+TARGET          = ../zcinema
 DEPENDPATH     += .
 INCLUDEPATH    += .
-RC_FILE         = ../zandemo.rc
-RESOURCES       = ../zandemo.qrc
+RC_FILE         = ../zcinema.rc
+RESOURCES       = ../zcinema.qrc
 RCC_DIR         = ./build/
 OBJECTS_DIR     = ./build/
 MOC_DIR         = ./build/

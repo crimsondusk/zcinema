@@ -1,5 +1,23 @@
-#ifndef ZANDEMO_VERSIONEDITOR_H
-#define ZANDEMO_VERSIONEDITOR_H
+/*
+ *  ZCinema: Zandronum demo launcher
+ *  Copyright (C) 2013 Santeri Piippo
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef ZCINEMA_VERSIONEDITOR_H
+#define ZCINEMA_VERSIONEDITOR_H
 
 #include <QDialog>
 #include "types.h"
@@ -60,4 +78,4 @@ private:
 	Ui_AddVersion* m_ui;
 };
 
-#endif // ZANDEMO_VERSIONEDITOR_H
+#endif // ZCINEMA_VERSIONEDITOR_H

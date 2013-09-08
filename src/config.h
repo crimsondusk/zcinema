@@ -1,5 +1,5 @@
 /*
- *  ZanDemo: Zandronum demo launcher
+ *  ZCinema: Zandronum demo launcher
  *  Copyright (C) 2013 Santeri Piippo
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ZANDEMO_CONFIG_H
-#define ZANDEMO_CONFIG_H
+#ifndef ZCINEMA_CONFIG_H
+#define ZCINEMA_CONFIG_H
 
 #include <QDialog>
 #include "main.h"
@@ -63,4 +63,4 @@ private:
 	void addVersion (const str& name, bool isRelease);
 };
 
-#endif // ZANDEMO_CONFIG_H
+#endif // ZCINEMA_CONFIG_H
