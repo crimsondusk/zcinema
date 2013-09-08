@@ -25,8 +25,6 @@
 #include <QVariant>
 
 typedef QString str;
-typedef QChar qchar;
-typedef QVariant var;
 template<class T> using list = QList<T>;
 typedef unsigned int uint;
 typedef unsigned short ushort;
@@ -60,7 +58,7 @@ public:
 	StringFormatArg (const str& v);
 	StringFormatArg (const char& v);
 	StringFormatArg (const uchar& v);
-	StringFormatArg (const qchar& v);
+	StringFormatArg (const QChar& v);
 	
 #define NUMERIC_FORMAT_ARG(T,C) \
 	StringFormatArg (const T& v) { \

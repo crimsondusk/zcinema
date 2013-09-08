@@ -37,7 +37,7 @@ str uncolorize (const str& in) {
 	str out;
 	int skip = 0;
 	
-	for (const qchar& c : in) {
+	for (const QChar& c : in) {
 		if (skip-- > 0)
 			continue;
 		
@@ -67,7 +67,7 @@ static void error (str msg) {
 // =============================================================================
 // -----------------------------------------------------------------------------
 static bool isKnownVersion (str ver) {
-	for (const var& it : getVersions())
+	for (const QVariant& it : getVersions())
 		if (it.toString() == ver || it.toString() + 'M' == ver)
 			return true;
 	
@@ -85,7 +85,7 @@ static str findWAD (str name) {
 		exit (9);
 	}
 	
-	for (const var& it : cfg::wadpaths) {
+	for (const QVariant& it : cfg::wadpaths) {
 		str fullpath = fmt ("%1/%2", it.toString(), name);
 		QFile f (fullpath);
 		

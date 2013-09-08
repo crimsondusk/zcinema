@@ -44,9 +44,9 @@ void addVersion (str name, bool isRelease, str binaryPath) {
 	cfg::binaryPaths[name] = binaryPath;
 	
 	if (isRelease)
-		cfg::releaseNames << var (name);
+		cfg::releaseNames << QVariant (name);
 	else
-		cfg::devBuildNames << var (name);
+		cfg::devBuildNames << QVariant (name);
 	
 	cfg::save();
 }

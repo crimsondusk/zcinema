@@ -40,7 +40,7 @@ void doPrint (FILE* fp, initlist<StringFormatArg> args) {
 StringFormatArg::StringFormatArg (const str& v)    { m_val = v; }
 StringFormatArg::StringFormatArg (const char& v)   { m_val = v; }
 StringFormatArg::StringFormatArg (const uchar& v)  { m_val = v; }
-StringFormatArg::StringFormatArg (const qchar& v)  { m_val = v; }
+StringFormatArg::StringFormatArg (const QChar& v)  { m_val = v; }
 StringFormatArg::StringFormatArg (const float& v)  { m_val = str::number (v); }
 StringFormatArg::StringFormatArg (const double& v) { m_val = str::number (v); }
 StringFormatArg::StringFormatArg (const char* v)   { m_val = v; }

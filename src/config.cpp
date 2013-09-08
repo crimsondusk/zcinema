@@ -84,10 +84,10 @@ void ConfigBox::initVersions() {
 	m_releaseLayout = new QFormLayout (ui->zandronumVersions);
 	m_testLayout = new QFormLayout (ui->betaVersions);
 	
-	for (const var& ver : cfg::devBuildNames)
+	for (const QVariant& ver : cfg::devBuildNames)
 		addVersion (ver.toString(), false);
 	
-	for (const var& rel : cfg::releaseNames)
+	for (const QVariant& rel : cfg::releaseNames)
 		addVersion (rel.toString(), true);
 }
 
@@ -118,12 +118,12 @@ void ConfigBox::addVersion (const str& name, bool isRelease) {
 void ConfigBox::initFromSettings() {
 	ui->wad_pathsList->clear();
 	
-	for (const var& it : cfg::wadpaths)
+	for (const QVariant& it : cfg::wadpaths)
 		addPath (it.toString());
 	
 	int i = 0;
 	
-	for (const var& ver : getVersions())
+	for (const QVariant& ver : getVersions())
 		m_zanBinaries[i++]->setText (cfg::binaryPaths[ver.toString()].toString());
 	
 	ui->noDemoPrompt->setChecked (cfg::noprompt);
@@ -141,7 +141,7 @@ void ConfigBox::saveSettings() {
 	cfg::noprompt = ui->noDemoPrompt->isChecked();
 	
 	int i = 0;
-	for (const var& ver : getVersions())
+	for (const QVariant& ver : getVersions())
 		cfg::binaryPaths[ver.toString()] = m_zanBinaries[i++]->text();
 	
 	cfg::save();
