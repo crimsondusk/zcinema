@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef ZANDEMO_MAIN_H
+#define ZANDEMO_MAIN_H
 
 #define APPNAME "ZanDemo"
 #define UNIXNAME "zandemo"
@@ -33,13 +33,15 @@
 #define BUILD_RC       3
 #define BUILD_RELEASE  4
 
-#define elif else if
+#define elif(A) else if (A)
+#define alias   auto&
 
 #include <QSettings>
+#include "cfg.h"
 
 struct VersionInfo;
 static const std::nullptr_t null = nullptr;
 
 QString versionString();
 
-#endif // MAIN_H
+#endif // ZANDEMO_MAIN_H

@@ -18,8 +18,18 @@
 
 #include "misc.h"
 
+EXTERN_CONFIG (List, devBuildNames)
+EXTERN_CONFIG (List, releaseNames)
+EXTERN_CONFIG (Map, binaryPaths)
+
 uint32 makeByteID (uint8 a, uint8 b, uint8 c, uint8 d) {
 	return a | (b << 8) | (c << 16) | (d << 24);
+}
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+QList<QVariant> getVersions() {
+	return cfg::devBuildNames + cfg::releaseNames;
 }
 
 // =============================================================================
@@ -30,34 +40,15 @@ str binaryConfigName (str ver) {
 
 // =============================================================================
 // -----------------------------------------------------------------------------
-list<var> getVersionsList() {
-	QSettings cfg;
-	return cfg.value ("binarynames", list<var>()).toList();
-}
-
-// =============================================================================
-// -----------------------------------------------------------------------------
-list<var> getReleasesList() {
-	QSettings cfg;
-	return cfg.value ("releasenames", list<var>()).toList();
-}
-
-// =============================================================================
-// -----------------------------------------------------------------------------
 void addVersion (str name, bool isRelease, str binaryPath) {
-	QSettings cfg;
-	list<var> versions = getVersionsList();
-	versions << var (name);
-	cfg.setValue ("binarynames", versions);
-	cfg.setValue (binaryConfigName (name), binaryPath);
+	cfg::binaryPaths[name] = binaryPath;
 	
-	if (isRelease) {
-		versions = getReleasesList();
-		versions << var (name);
-		cfg.setValue ("releasenames", versions);
-	}
+	if (isRelease)
+		cfg::releaseNames << var (name);
+	else
+		cfg::devBuildNames << var (name);
 	
-	cfg.sync();
+	cfg::save();
 }
 
 // =============================================================================

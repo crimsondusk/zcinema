@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PROMPTS_H
-#define PROMPTS_H
+#ifndef ZANDEMO_PROMPTS_H
+#define ZANDEMO_PROMPTS_H
 
 #include <QDialog>
 #include "main.h"
@@ -44,4 +44,4 @@ private:
 	bool m_isRelease;
 };
 
-#endif // PROMPTS_H
+#endif // ZANDEMO_PROMPTS_H

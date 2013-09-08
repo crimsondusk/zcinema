@@ -25,6 +25,10 @@
 #include "ui_demoprompt.h"
 #include "prompts.h"
 
+EXTERN_CONFIG (Map,  binaryPaths)
+EXTERN_CONFIG (List, wadpaths)
+EXTERN_CONFIG (Bool, noprompt)
+
 static const uint32 g_demoSignature = makeByteID ('Z', 'C', 'L', 'D');
 
 // =============================================================================
@@ -37,7 +41,7 @@ str uncolorize (const str& in) {
 		if (skip-- > 0)
 			continue;
 		
-		if (c.toLatin1() == '\034') {
+		if (c == QChar ('\034')) {
 			skip = 1;
 			continue;
 		}
@@ -63,10 +67,7 @@ static void error (str msg) {
 // =============================================================================
 // -----------------------------------------------------------------------------
 static bool isKnownVersion (str ver) {
-	QSettings cfg;
-	list<var> versions = getVersionsList();
-	
-	for (const var& it : versions)
+	for (const var& it : getVersions())
 		if (it.toString() == ver || it.toString() + 'M' == ver)
 			return true;
 	
@@ -76,10 +77,7 @@ static bool isKnownVersion (str ver) {
 // =============================================================================
 // -----------------------------------------------------------------------------
 static str findWAD (str name) {
-	QSettings cfg;
-	list<var> paths = cfg.value ("wads/paths", list<var>()).toList();
-	
-	if (paths.size() == 0) {
+	if (cfg::wadpaths.size() == 0) {
 		error (tr ("No WAD paths configured!"));
 		
 		// Cannot just return an empty string here since that'd trigger
@@ -87,7 +85,7 @@ static str findWAD (str name) {
 		exit (9);
 	}
 	
-	for (const var& it : paths) {
+	for (const var& it : cfg::wadpaths) {
 		str fullpath = fmt ("%1/%2", it.toString(), name);
 		QFile f (fullpath);
 		
@@ -231,8 +229,7 @@ int launchDemo (str path) {
 		}
 	}
 	
-	QSettings cfg;
-	str binarypath = cfg.value (binaryConfigName (zanversion)).toString();
+	str binarypath = cfg::binaryPaths [zanversion].toString();
 	
 	if (binarypath.isEmpty()) {
 		error (fmt (tr ("No binary path specified for Zandronum version %1!"), zanversion));
@@ -261,7 +258,7 @@ int launchDemo (str path) {
 			pwadpaths << path;
 	}
 	
-	if (!cfg.value ("nodemoprompt", false).toBool()) {
+	if (!cfg::noprompt) {
 		str pwadtext;
 		
 		for (const str& pwad : wads) {
@@ -288,7 +285,7 @@ int launchDemo (str path) {
 			return 1;
 	}
 
-	QStringList cmdlineList ( {
+	QStringList cmdlineList ({
 		"-playdemo", path,
 		"-iwad", iwadpath,
 	});

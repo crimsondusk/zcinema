@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef ZANDEMO_TYPES_H
+#define ZANDEMO_TYPES_H
 
 #include "main.h"
 #include <QString>
@@ -128,4 +128,4 @@ void print (const char* fmtstr, ...);
 void fprint (FILE* fp, const char* fmtstr, ...);
 #endif
 
-#endif // TYPES_H
+#endif // ZANDEMO_TYPES_H

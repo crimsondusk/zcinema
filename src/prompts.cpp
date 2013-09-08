@@ -19,8 +19,8 @@
 #include "prompts.h"
 #include "ui_unknownversion.h"
 #include "misc.h"
-#include "build/moc_prompts.cpp"
 #include "config.h"
+#include "build/moc_prompts.cpp"
 
 // =============================================================================
 // -----------------------------------------------------------------------------

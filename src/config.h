@@ -1,6 +1,3 @@
-#ifndef CONFIG_H
-#define CONFIG_H
-
 /*
  *  ZanDemo: Zandronum demo launcher
  *  Copyright (C) 2013 Santeri Piippo
@@ -19,10 +16,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef ZANDEMO_CONFIG_H
+#define ZANDEMO_CONFIG_H
+
 #include <QDialog>
 #include "main.h"
 #include "types.h"
 
+class QFormLayout;
 class QNetworkReply;
 class QHBoxLayout;
 class QLabel;
@@ -35,9 +36,9 @@ class ConfigBox : public QDialog {
 	Q_OBJECT
 	
 public:
-	explicit ConfigBox( QWidget* parent = null, Qt::WindowFlags f = 0 );
+	explicit ConfigBox (QWidget* parent = null, Qt::WindowFlags f = 0);
 	virtual ~ConfigBox();
-	void addPath( str path );
+	void addPath (str path);
 	void initFromSettings();
 	void saveSettings();
 	void initVersions();
@@ -49,11 +50,15 @@ public slots:
 	void findPath();
 	void delPath();
 	void findZanBinary();
-	void buttonPressed( QAbstractButton* btn );
+	void buttonPressed (QAbstractButton* btn);
 	
 private:
-	Ui_ConfigBox* ui;
-	list<QLineEdit*> m_zanBinaries;
+	Ui_ConfigBox*        ui;
+	list<QLineEdit*>   m_zanBinaries;
+	QFormLayout*       m_releaseLayout,
+	           *       m_testLayout;
+	
+	void addVersion (const str& name, bool isRelease);
 };
 
-#endif // CONFIG_H
+#endif // ZANDEMO_CONFIG_H

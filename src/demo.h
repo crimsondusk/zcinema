@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DEMO_H
-#define DEMO_H
+#ifndef ZANDEMO_DEMO_H
+#define ZANDEMO_DEMO_H
 
 #include "types.h"
 
@@ -43,4 +43,4 @@ struct VersionInfo {
 
 int launchDemo (str path);
 
-#endif // DEMO_H
+#endif // ZANDEMO_DEMO_H

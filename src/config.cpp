@@ -27,6 +27,12 @@
 #include "demo.h"
 #include "build/moc_config.cpp"
 
+CONFIG (Bool, noprompt,      false)
+CONFIG (List, devBuildNames, cfg::List())
+CONFIG (List, releaseNames,  cfg::List())
+CONFIG (List, wadpaths,      cfg::List())
+CONFIG (Map,  binaryPaths,   cfg::Map())
+
 // =============================================================================
 // -----------------------------------------------------------------------------
 class FindPathButton : public QPushButton {
@@ -48,8 +54,10 @@ private:
 
 // =============================================================================
 // -----------------------------------------------------------------------------
-ConfigBox::ConfigBox (QWidget* parent, Qt::WindowFlags f) : QDialog (parent, f) {
-	ui = new Ui_ConfigBox;
+ConfigBox::ConfigBox (QWidget* parent, Qt::WindowFlags f) :
+	QDialog (parent, f),
+	ui (new Ui_ConfigBox)
+{
 	ui->setupUi (this);
 	
 	initVersions();
@@ -60,7 +68,7 @@ ConfigBox::ConfigBox (QWidget* parent, Qt::WindowFlags f) : QDialog (parent, f) 
 	connect (ui->wad_findPath, SIGNAL (clicked()), this, SLOT (findPath()));
 	connect (ui->wad_del, SIGNAL (clicked()), this, SLOT (delPath()));
 	connect (ui->buttonBox, SIGNAL (clicked (QAbstractButton*)), this,
-			 SLOT (buttonPressed (QAbstractButton*)));
+	         SLOT (buttonPressed (QAbstractButton*)));
 	setWindowTitle (fmt (APPNAME " %1", versionString()));
 }
 
@@ -73,77 +81,70 @@ ConfigBox::~ConfigBox() {
 // =============================================================================
 // -----------------------------------------------------------------------------
 void ConfigBox::initVersions() {
-	QFormLayout* releaseLayout = new QFormLayout (ui->zandronumVersions),
-	*testLayout = new QFormLayout (ui->betaVersions);
-	list<var> versions = getVersionsList(),
-		releases = getReleasesList();
+	m_releaseLayout = new QFormLayout (ui->zandronumVersions);
+	m_testLayout = new QFormLayout (ui->betaVersions);
 	
-	for (const var& ver : versions) {
-		str verstring = ver.toString();
-		
-		bool isRelease = false;
-		for (const var& rel : releases) {
-			if (rel.toString() == verstring) {
-				isRelease = true;
-				break;
-			}
-		}
-		
-		QLabel* lb = new QLabel (verstring + ":");
-		QLineEdit* ledit = new QLineEdit;
-		FindPathButton* btn = new FindPathButton;
-		btn->setEditWidget (ledit);
+	for (const var& ver : cfg::devBuildNames)
+		addVersion (ver.toString(), false);
+	
+	for (const var& rel : cfg::releaseNames)
+		addVersion (rel.toString(), true);
+}
 
-		QWidget* wdg = new QWidget;
-		QHBoxLayout* leditLayout = new QHBoxLayout (wdg);
-		leditLayout->addWidget (ledit);
-		leditLayout->addWidget (btn);
-
-		m_zanBinaries << ledit;
-		connect (btn, SIGNAL (clicked()), this, SLOT (findZanBinary()));
-
-		if (isRelease)
-			releaseLayout->addRow (lb, wdg);
-		else
-			testLayout->addRow (lb, wdg);
-	}
+// =============================================================================
+// -----------------------------------------------------------------------------
+void ConfigBox::addVersion (const str& name, bool isRelease) {
+	QLabel* lb = new QLabel (name + ":");
+	QLineEdit* ledit = new QLineEdit;
+	FindPathButton* btn = new FindPathButton;
+	btn->setEditWidget (ledit);
+	
+	QWidget* wdg = new QWidget;
+	QHBoxLayout* leditLayout = new QHBoxLayout (wdg);
+	leditLayout->addWidget (ledit);
+	leditLayout->addWidget (btn);
+	
+	m_zanBinaries << ledit;
+	connect (btn, SIGNAL (clicked()), this, SLOT (findZanBinary()));
+	
+	if (isRelease)
+		m_releaseLayout->addRow (lb, wdg);
+	else
+		m_testLayout->addRow (lb, wdg);
 }
 
 // =============================================================================
 // -----------------------------------------------------------------------------
 void ConfigBox::initFromSettings() {
-	QSettings cfg;
 	ui->wad_pathsList->clear();
-	list<var> paths = cfg.value ("wads/paths", list<var>()).toList();
 	
-	for (const var & it : paths)
+	for (const var& it : cfg::wadpaths)
 		addPath (it.toString());
 	
 	int i = 0;
 	
-	list<var> versions = getVersionsList();
-	for (const var& ver : versions)
-		m_zanBinaries[i++]->setText (cfg.value (binaryConfigName (ver.toString()), "").toString());
+	for (const var& ver : getVersions())
+		m_zanBinaries[i++]->setText (cfg::binaryPaths[ver.toString()].toString());
 	
-	ui->noDemoPrompt->setChecked (cfg.value ("nodemoprompt", false).toBool());
+	ui->noDemoPrompt->setChecked (cfg::noprompt);
 }
 
 // =============================================================================
 // -----------------------------------------------------------------------------
 void ConfigBox::saveSettings() {
-	QSettings cfg;
-	list<var> wadPathList;
+	QList<QVariant> wadPathList;
 	
 	for (int i = 0; i < ui->wad_pathsList->count(); ++i)
 		wadPathList << ui->wad_pathsList->item (i)->text();
 	
-	cfg.setValue ("wads/paths", wadPathList);
-	cfg.setValue ("nodemoprompt", ui->noDemoPrompt->isChecked());
+	cfg::wadpaths = wadPathList;
+	cfg::noprompt = ui->noDemoPrompt->isChecked();
 	
 	int i = 0;
-	list<var> versions = getVersionsList();
-	for (const var& ver : versions)
-		cfg.setValue (binaryConfigName (ver.toString()), m_zanBinaries[i++]->text());
+	for (const var& ver : getVersions())
+		cfg::binaryPaths[ver.toString()] = m_zanBinaries[i++]->text();
+	
+	cfg::save();
 }
 
 // =============================================================================

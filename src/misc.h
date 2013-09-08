@@ -16,17 +16,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MISC_H
-#define MISC_H
+#ifndef ZANDEMO_MISC_H
+#define ZANDEMO_MISC_H
 
 #include "types.h"
 
 uint32 makeByteID (uint8 a, uint8 b, uint8 c, uint8 d);
 str binaryConfigName (str ver);
 str basename (str path);
-list<var> getVersionsList();
-list<var> getReleasesList();
 void addVersion (str name, bool isRelease, str binaryPath);
+
+QList<QVariant> getVersions();
 
 // -----------------------------------------------------------------------------
 // Templated clamp
@@ -49,4 +49,4 @@ template<class T> static inline T abs (T a) {
 	return (a >= 0) ? a : -a;
 }
 
-#endif // MISC_H
+#endif // ZANDEMO_MISC_H

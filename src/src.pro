@@ -1,3 +1,4 @@
+CONFIG         += qt debug
 TARGET          = ../zandemo
 DEPENDPATH     += .
 INCLUDEPATH    += .

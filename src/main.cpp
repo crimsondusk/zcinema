@@ -17,9 +17,8 @@
  */
 
 #include <QApplication>
-#include <QSettings>
-#include "types.h"
 #include "config.h"
+#include "types.h"
 #include "demo.h"
 
 // =============================================================================
@@ -29,6 +28,8 @@ int main (int argc, char* argv[]) {
 	app.setApplicationName (UNIXNAME);
 	app.setOrganizationName (UNIXNAME);
 	app.setApplicationVersion (versionString());
+	
+	cfg::load();
 	
 	for (int i = 1; i < argc; ++i) {
 		str arg = argv[i];
