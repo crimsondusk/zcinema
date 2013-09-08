@@ -83,9 +83,6 @@ void VersionEditor::remove() {
 	QTableWidget* const vers = m_ui->m_versions;
 	
 	str name = vers->item (vers->currentRow(), NameColumn)->text();
-	if (!confirm (fmt (tr ("Really remove version %1?"), name)))
-		return;
-	
 	vers->removeRow (vers->currentRow());
 }
 
