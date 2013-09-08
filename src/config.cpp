@@ -26,6 +26,7 @@
 #include "misc.h"
 #include "demo.h"
 #include "build/moc_config.cpp"
+#include "versionEditor.h"
 
 CONFIG (Bool, noprompt,      false)
 CONFIG (List, devBuildNames, cfg::List())
@@ -56,7 +57,9 @@ private:
 // -----------------------------------------------------------------------------
 ConfigBox::ConfigBox (QWidget* parent, Qt::WindowFlags f) :
 	QDialog (parent, f),
-	ui (new Ui_ConfigBox)
+	ui (new Ui_ConfigBox),
+	m_releaseLayout (null),
+	m_testLayout (null)
 {
 	ui->setupUi (this);
 	
@@ -69,6 +72,8 @@ ConfigBox::ConfigBox (QWidget* parent, Qt::WindowFlags f) :
 	connect (ui->wad_del, SIGNAL (clicked()), this, SLOT (delPath()));
 	connect (ui->buttonBox, SIGNAL (clicked (QAbstractButton*)), this,
 	         SLOT (buttonPressed (QAbstractButton*)));
+	connect (ui->m_editVersions, SIGNAL (clicked()), this, SLOT (editBinaries()));
+	connect (ui->m_editVersions_2, SIGNAL (clicked()), this, SLOT (editBinaries()));
 	setWindowTitle (fmt (APPNAME " %1", versionString()));
 }
 
@@ -81,8 +86,20 @@ ConfigBox::~ConfigBox() {
 // =============================================================================
 // -----------------------------------------------------------------------------
 void ConfigBox::initVersions() {
-	m_releaseLayout = new QFormLayout (ui->zandronumVersions);
-	m_testLayout = new QFormLayout (ui->betaVersions);
+	if (m_releaseLayout == null) {
+		m_releaseLayout = new QFormLayout;
+		m_testLayout = new QFormLayout;
+		ui->zandronumVersions->setLayout (m_releaseLayout);
+		ui->betaVersions->setLayout (m_testLayout);
+	} else {
+		// re-init, clear the layouts
+		QLayoutItem* item;
+		for (QWidget* w : m_binaryLayoutWidgets)
+			delete w;
+		
+		m_binaryLayoutWidgets.clear();
+		m_zanBinaries.clear();
+	}
 	
 	for (const QVariant& ver : cfg::devBuildNames)
 		addVersion (ver.toString(), false);
@@ -111,6 +128,8 @@ void ConfigBox::addVersion (const str& name, bool isRelease) {
 		m_releaseLayout->addRow (lb, wdg);
 	else
 		m_testLayout->addRow (lb, wdg);
+	
+	m_binaryLayoutWidgets << ledit << btn << wdg << lb;
 }
 
 // =============================================================================
@@ -218,4 +237,15 @@ void ConfigBox::buttonPressed (QAbstractButton* btn) {
 		reject();
 	elif (btn == ui->buttonBox->button (QDialogButtonBox::Apply))
 		saveSettings();
+}
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+void ConfigBox::editBinaries() {
+	VersionEditor* dlg = new VersionEditor (this);
+	
+	if (dlg->exec()) {
+		dlg->saveChanges();
+		initVersions();
+	}
 }

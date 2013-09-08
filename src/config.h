@@ -50,11 +50,13 @@ public slots:
 	void findPath();
 	void delPath();
 	void findZanBinary();
+	void editBinaries();
 	void buttonPressed (QAbstractButton* btn);
 	
 private:
 	Ui_ConfigBox*        ui;
 	list<QLineEdit*>   m_zanBinaries;
+	list<QWidget*>     m_binaryLayoutWidgets;
 	QFormLayout*       m_releaseLayout,
 	           *       m_testLayout;
 	

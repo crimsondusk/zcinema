@@ -17,6 +17,7 @@
  */
 
 #include "misc.h"
+#include <QMessageBox>
 
 EXTERN_CONFIG (List, devBuildNames)
 EXTERN_CONFIG (List, releaseNames)
@@ -60,4 +61,11 @@ str basename (str path) {
 		return path.mid (lastpos + 1);
 	
 	return path;
+}
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+bool confirm (str text) {
+	return QMessageBox::question (null, QObject::tr ("Confirm"), text,
+		QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::No;
 }
