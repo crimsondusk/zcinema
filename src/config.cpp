@@ -93,7 +93,6 @@ void ConfigBox::initVersions() {
 		ui->betaVersions->setLayout (m_testLayout);
 	} else {
 		// re-init, clear the layouts
-		QLayoutItem* item;
 		for (QWidget* w : m_binaryLayoutWidgets)
 			delete w;
 		
