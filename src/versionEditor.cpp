@@ -95,7 +95,8 @@ void VersionEditor::clear() {
 	if (!confirm (tr ("Really remove all versions?")))
 		return;
 	
-	m_ui->m_versions->clear();
+	for (int i = m_ui->m_versions->rowCount() - 1; i >= 0; --i)
+		m_ui->m_versions->removeRow (i);
 }
 
 // =============================================================================
@@ -137,8 +138,6 @@ void VersionEditor::saveChanges() {
 		
 		cfg::binaryPaths[name] = path;
 	}
-	
-	cfg::save();
 }
 
 // =============================================================================
