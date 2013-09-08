@@ -22,9 +22,9 @@
 #define APPNAME "ZCinema"
 #define UNIXNAME "zcinema"
 #define VERSION_MAJOR 0
-#define VERSION_MINOR 0
-#define VERSION_PATCH 999
-#define BUILD_ID BUILD_INTERNAL
+#define VERSION_MINOR 1
+#define VERSION_PATCH 0
+#define BUILD_ID BUILD_BETA
 #define RC_ID 0
 
 #define BUILD_INTERNAL 0
