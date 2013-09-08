@@ -220,7 +220,9 @@ int launchDemo (str path) {
 	}
 	
 	if (!isKnownVersion (zanversion)) {
-		UnknownVersionPrompt* prompt = new UnknownVersionPrompt (path, zanversion, (buildID == 1));
+		UnknownVersionPrompt* prompt = new UnknownVersionPrompt (path, zanversion,
+			(buildID == ReleaseBuild));
+		
 		if (!prompt->exec())
 			return 6;
 		
