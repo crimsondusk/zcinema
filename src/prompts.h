@@ -25,7 +25,10 @@
 
 class QAbstractButton;
 class Ui_UnknownVersion;
+class Ui_FindFile;
 
+// =============================================================================
+// -----------------------------------------------------------------------------
 class UnknownVersionPrompt : public QDialog {
 	Q_OBJECT
 	
@@ -39,9 +42,27 @@ public slots:
 	void addBinary();
 	
 private:
-	Ui_UnknownVersion* ui;
-	QString m_binaryString;
-	bool m_isRelease;
+	Ui_UnknownVersion*   ui;
+	QString            m_binaryString;
+	bool               m_isRelease;
+};
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+class FindFilePrompt : public QDialog {
+	Q_OBJECT
+	
+public:
+	explicit FindFilePrompt (QWidget* parent = 0, Qt::WindowFlags f = 0);
+	virtual ~FindFilePrompt();
+	
+	str path() const;
+	
+public slots:
+	void findDemo();
+	
+private:
+	Ui_FindFile* m_ui;
 };
 
 #endif // ZANDEMO_PROMPTS_H

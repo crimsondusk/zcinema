@@ -20,6 +20,7 @@
 #include "config.h"
 #include "types.h"
 #include "demo.h"
+#include "prompts.h"
 
 // =============================================================================
 // -----------------------------------------------------------------------------
@@ -41,9 +42,11 @@ int main (int argc, char* argv[]) {
 	}
 	
 	if (argc != 2) {
-		fprint (stderr, "Usage: %1 <demo>   - Launch a demo file\n", argv[0]);
-		fprint (stderr, "       %1 --config - Configure " APPNAME "\n", argv[0]);
-		return 255;
+		FindFilePrompt* dlg = new FindFilePrompt (null);
+		if (!dlg->exec())
+			return 255;
+		
+		return launchDemo (dlg->path());
 	}
 	
 	return launchDemo (argv[1]);
@@ -72,4 +75,8 @@ str versionString() {
 #endif // BUILD_ID
 	
 	return text;
+}
+
+QString versionSignature() {
+	return QString (APPNAME) + " " + versionString();
 }

@@ -43,5 +43,6 @@ struct VersionInfo;
 static const std::nullptr_t null = nullptr;
 
 QString versionString();
+QString versionSignature();
 
 #endif // ZANDEMO_MAIN_H

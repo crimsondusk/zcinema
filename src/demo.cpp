@@ -277,7 +277,7 @@ int launchDemo (str path) {
 		ui.versionLabel->setText (zanversion);
 		ui.iwadLabel->setText (wads[0]);
 		ui.pwadsLabel->setText (pwadtext);
-		dlg->setWindowTitle (str (APPNAME) + " " + versionString());
+		dlg->setWindowTitle (versionSignature());
 		
 		if (!dlg->exec())
 			return 1;

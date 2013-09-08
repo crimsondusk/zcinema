@@ -21,6 +21,8 @@
 #include "misc.h"
 #include "config.h"
 #include "build/moc_prompts.cpp"
+#include "ui_findfile.h"
+#include <QFileDialog>
 
 // =============================================================================
 // -----------------------------------------------------------------------------
@@ -46,6 +48,7 @@ UnknownVersionPrompt::UnknownVersionPrompt (
 	
 	connect (ui->m_addVersion, SIGNAL (clicked(bool)), this, SLOT (addBinary()));
 	connect (ui->m_findBinary, SIGNAL (clicked(bool)), this, SLOT (findBinary()));
+	setWindowTitle (versionSignature());
 }
 
 // =============================================================================
@@ -70,4 +73,38 @@ void UnknownVersionPrompt::findBinary() {
 		return;
 	
 	ui->m_binaryPath->setText (path);
+}
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+FindFilePrompt::FindFilePrompt (QWidget* parent, Qt::WindowFlags f) :
+	QDialog (parent, f),
+	m_ui (new Ui_FindFile)
+{
+	m_ui->setupUi (this);
+	connect (m_ui->m_find, SIGNAL (clicked()), this, SLOT (findDemo()));
+	
+	setWindowTitle (versionSignature());
+}
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+FindFilePrompt::~FindFilePrompt() {
+	delete m_ui;
+}
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+void FindFilePrompt::findDemo() {
+	str path = QFileDialog::getOpenFileName (this, tr ("Open Demo File"),
+		QDir::homePath(), tr ("Demo files (*.cld);;All files (*.*)"));
+	
+	if (!path.isEmpty())
+		m_ui->m_path->setText (path);
+}
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+str FindFilePrompt::path() const {
+	return m_ui->m_path->text();
 }

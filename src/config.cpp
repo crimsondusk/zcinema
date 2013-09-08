@@ -74,7 +74,7 @@ ConfigBox::ConfigBox (QWidget* parent, Qt::WindowFlags f) :
 	         SLOT (buttonPressed (QAbstractButton*)));
 	connect (ui->m_editVersions, SIGNAL (clicked()), this, SLOT (editBinaries()));
 	connect (ui->m_editVersions_2, SIGNAL (clicked()), this, SLOT (editBinaries()));
-	setWindowTitle (fmt (APPNAME " %1", versionString()));
+	setWindowTitle (versionSignature());
 }
 
 // =============================================================================
