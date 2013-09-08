@@ -157,17 +157,13 @@ int launchDemo (str path) {
 	for (;;) {
 		uint8 header;
 		stream >> header;
-		print ("header: %1\n", (int) header);
 		
 		if (header == DemoBodyStart + offset) {
 			ready = true;
 			break;
 		} elif (header == DemoVersion + offset) {
-			print ("Read demo version\n");
 			stream >> zanversionID;
 			zanversion = readString (stream);
-			
-			print ("version ID: %1, version: %2\n", zanversionID, zanversion);
 			
 			if (!zanversion.startsWith ("1.1-") && !zanversion.startsWith ("1.1.1-")) {
 				uint8 a;
@@ -182,7 +178,6 @@ int launchDemo (str path) {
 			
 			stream >> longSink; // rng seed - we don't need it
 		} elif (header == DemoUserInfo + offset) {
-			print ("Read userinfo\n");
 			userinfo.netname = readString (stream);
 			stream >> userinfo.gender
 			       >> userinfo.color
@@ -207,7 +202,7 @@ int launchDemo (str path) {
 			// The demo has two checksum strings. We're not interested
 			// in them though. Down the sink they go...
 			for (int i = 0; i < 2; ++i)
-				stream >> sink;
+				sink = readString (stream);
 		} else {
 			error (fmt (tr ("Unknown header %1!\n"), (int) header));
 			return 3;
@@ -282,7 +277,7 @@ int launchDemo (str path) {
 		ui.versionLabel->setText (zanversion);
 		ui.iwadLabel->setText (wads[0]);
 		ui.pwadsLabel->setText (pwadtext);
-		dlg->setWindowTitle (fmt (APPNAME " %1", versionString()));
+		dlg->setWindowTitle (str (APPNAME) + " " + versionString());
 		
 		if (!dlg->exec())
 			return 1;
