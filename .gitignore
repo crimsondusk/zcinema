@@ -1,8 +1,8 @@
 Makefile
-zandemo.kdev4
+zcinema.kdev4
 *.o
 ui_*.h
-zandemo
+zcinema
 *.cld
 build
 *.bak

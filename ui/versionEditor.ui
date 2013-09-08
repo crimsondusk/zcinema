@@ -14,8 +14,8 @@
    <string>Edit Zandronum Versions</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../zandemo.qrc">
-    <normaloff>:/icons/zandemo.ico</normaloff>:/icons/zandemo.ico</iconset>
+   <iconset resource="../../zcinema.qrc">
+    <normaloff>:/icons/zcinema.ico</normaloff>:/icons/zcinema.ico</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
    <item>
@@ -120,7 +120,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../zandemo.qrc"/>
+  <include location="../../zcinema.qrc"/>
  </resources>
  <connections>
   <connection>
